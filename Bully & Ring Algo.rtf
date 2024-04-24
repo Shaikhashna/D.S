@@ -1,0 +1,292 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.22621}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang9   Name : Kamble Kajal Rajendra \par
+  Roll No : 514\par
+  Assign No : 06 (Bully Algo & Ring Algo )\par
+============================================================================\par
+Code :\par
+import java.io.InputStream;\par
+import java.io.PrintStream;\par
+import java.util.Scanner;\par
+\par
+public class Bully \{\par
+    static boolean[] state = new boolean[5];\par
+    int coordinator;\par
+\par
+    public static void up(int up) \{\par
+        if (state[up - 1]) \{\par
+            System.out.println("process" + up + "is already up");\par
+        \} else \{\par
+            int i;\par
+            Bully.state[up - 1] = true;\par
+            System.out.println("process " + up + "held election");\par
+            for (i = up; i < 5; ++i) \{\par
+                System.out.println("election message sent from process" + up + "to process" + (i + 1));\par
+            \}\par
+            for (i = up + 1; i <= 5; ++i) \{\par
+                if (!state[i - 1]) continue;\par
+                System.out.println("alive message send from process" + i + "to process" + up);\par
+                break;\par
+            \}\par
+        \}\par
+    \}\par
+    public static void down(int down) \{\par
+        if (!state[down - 1]) \{\par
+            System.out.println("process " + down + "is already dowm.");\par
+        \} else \{\par
+            Bully.state[down - 1] = false;\par
+        \}\par
+    \}\par
+    public static void mess(int mess) \{\par
+        if (state[mess - 1]) \{\par
+            if (state[4]) \{\par
+                System.out.println("0K");\par
+            \} else if (!state[4]) \{\par
+                int i;\par
+                System.out.println("process" + mess + "election");\par
+                for (i = mess; i < 5; ++i) \{\par
+                    System.out.println("election send from process" + mess + "to process " + (i + 1));\par
+                \}\par
+                for (i = 5; i >= mess; --i) \{\par
+                    if (!state[i - 1]) continue;\par
+                    System.out.println("Coordinator message send from process" + i + "to all");\par
+                    break;\par
+                \}\par
+            \}\par
+        \} else \{\par
+            System.out.println("Prccess" + mess + "is down");\par
+        \}\par
+    \}\par
+    public static void main(String[] args) \{\par
+        int choice;\par
+        Scanner sc = new Scanner(System.in);\par
+        for (int i = 0; i < 5; ++i) \{\par
+            Bully.state[i] = true;\par
+        \}\par
+        System.out.println("5 active process are:");\par
+        System.out.println("Process up  = p1 p2 p3 p4 p5");\par
+        System.out.println("Process 5 is coordinator");\par
+        do \{\par
+            System.out.println(".........");\par
+            System.out.println("1 up a process.");\par
+            System.out.println("2.down a process");\par
+            System.out.println("3 send a message");\par
+            System.out.println("4.Exit");\par
+            choice = sc.nextInt();\par
+            switch (choice) \{\par
+                case 1: \{\par
+                    System.out.println("bring proces up");\par
+                    int up = sc.nextInt();\par
+                    if (up == 5) \{\par
+                        System.out.println("process 5 is co-ordinator");\par
+                        Bully.state[4] = true;\par
+                        break;\par
+                    \}\par
+                    Bully.up(up);\par
+                    break;\par
+                \}\par
+                case 2: \{\par
+                    System.out.println("bring down any process.");\par
+                    int down = sc.nextInt();\par
+                    Bully.down(down);\par
+                    break;\par
+                \}\par
+                case 3: \{\par
+                    System.out.println("which process will send message");\par
+                    int mess = sc.nextInt();\par
+                    Bully.mess(mess);\par
+                \}\par
+            \}\par
+        \} while (choice != 4);\par
+    \}\par
+\}\b\par
+Output :\par
+\b0 PS C:\\Users\\Kajal\\Downloads\\Election> cd "c:\\Users\\Kajal\\Downloads\\Election\\Election\\" ; if ($?) \{ javac Bully.java \} ; if ($?) \{ java Bully \}\par
+5 active process are:\par
+Process up  = p1 p2 p3 p4 p5\par
+Process 5 is coordinator\par
+.........\par
+1 up a process.\par
+2.down a process\par
+3 send a message\par
+4.Exit\par
+2\par
+bring down any process.\par
+5\par
+.........\par
+1 up a process.\par
+2.down a process\par
+3 send a message\par
+4.Exit\par
+3\par
+which process will send message\par
+2\par
+process2election\par
+election send from process2to process 3\par
+election send from process2to process 4\par
+election send from process2to process 5\par
+Coordinator message send from process4to all\par
+.........\par
+1 up a process.\par
+2.down a process\par
+3 send a message\par
+4.Exit\par
+4\par
+PS C:\\Users\\Kajal\\Downloads\\Election\\Election>  \par
+\par
+\ul\b 2) Ring Algo \par
+\par
+CODE :\ulnone\b0\par
+import java.util.Scanner;\par
+public class Ring \{\par
+\tab public static void main(String[] args) \{\par
+\tab\tab // TODO Auto-generated method stub\par
+\tab\tab int temp, i, j;\par
+\tab\tab char str[] = new char[10];\par
+\tab\tab Rr proc[] = new Rr[10];\par
+\par
+// object initialisation\par
+\tab\tab for (i = 0; i < proc.length; i++)\par
+\tab\tab\tab proc[i] = new Rr();\par
+// scanner used for getting input from console\par
+\tab\tab Scanner in = new Scanner(System.in);\par
+\tab\tab System.out.println("Enter the number of process : ");\par
+\tab\tab int num = in.nextInt();\par
+// getting input from users\par
+\tab\tab for (i = 0; i < num; i++) \{\par
+\tab\tab\tab proc[i].index = i;\par
+\tab\tab\tab System.out.println("Enter the id of process : ");\par
+\tab\tab\tab proc[i].id = in.nextInt();\par
+\tab\tab\tab proc[i].state = "active";\par
+\tab\tab\tab proc[i].f = 0;\par
+\tab\tab\}\par
+// sorting the processes from on the basis of id\par
+\tab\tab for (i = 0; i < num - 1; i++) \{\par
+\tab\tab\tab for (j = 0; j < num - 1; j++) \{\par
+\tab\tab\tab\tab if (proc[j].id > proc[j + 1].id) \{\par
+\tab\tab\tab\tab\tab temp = proc[j].id;\par
+\tab\tab\tab\tab\tab proc[j].id = proc[j + 1].id;\par
+\tab\tab\tab\tab\tab proc[j + 1].id = temp;\par
+\tab\tab\tab\tab\}\par
+\tab\tab\tab\}\par
+\tab\tab\}\par
+\tab\tab for (i = 0; i < num; i++) \{\par
+\tab\tab\tab System.out.print("  [" + i + "]" + " " + proc[i].id);\par
+\tab\tab\}\par
+\tab\tab int init;\par
+\tab\tab int ch;\par
+\tab\tab int temp1;\par
+\tab\tab int temp2;\par
+\tab\tab int ch1;\par
+\tab\tab int arr[] = new int[10];\par
+\tab\tab proc[num - 1].state = "inactive";\par
+                           System.out.println("\\n process " + proc[num - 1].id + "select as co-ordinator");\par
+\tab\tab while (true) \{\par
+\tab\tab\tab System.out.println("\\n 1.election 2.quit ");\par
+\tab\tab\tab ch = in.nextInt();\par
+\tab\tab\tab for (i = 0; i < num; i++) \{\par
+\tab\tab\tab\tab proc[i].f = 0;\par
+\tab\tab\tab\}\par
+\tab\tab\tab switch (ch) \{\par
+\tab\tab\tab case 1:\par
+\tab\tab System.out.println("\\n Enter the Process number who initialsied election : ");\par
+\tab\tab\tab\tab init = in.nextInt();\par
+\tab\tab\tab\tab temp2 = init;\par
+\tab\tab\tab\tab temp1 = init + 1;\par
+\tab\tab\tab\tab i = 0;\par
+\tab\tab\tab\tab while (temp2 != temp1) \{\par
+\tab\tab\tab if ("active".equals(proc[temp1].state) && proc[temp1].f == 0) \{\par
+\par
+\tab System.out.println("\\nProcess " + proc[init].id + " send message to " + proc[temp1].id);\par
+\tab\tab\tab\tab\tab\tab proc[temp1].f = 1;\par
+\tab\tab\tab\tab\tab\tab init = temp1;\par
+\tab\tab\tab\tab\tab\tab arr[i] = proc[temp1].id;\par
+\tab\tab\tab\tab\tab\tab i++;\par
+\tab\tab\tab\tab\tab\}\par
+\tab\tab\tab\tab\tab if (temp1 == num) \{\par
+\tab\tab\tab\tab\tab\tab temp1 = 0;\par
+\tab\tab\tab\tab\tab\} else \{\par
+\tab\tab\tab\tab\tab\tab temp1++;\par
+\tab\tab\tab\tab\tab\}\par
+\tab\tab\tab\tab\}\par
+\par
+\tab System.out.println("\\nProcess " + proc[init].id + " send message to " + proc[temp1].id);\par
+\tab\tab\tab\tab arr[i] = proc[temp1].id;\par
+\tab\tab\tab\tab i++;\par
+\tab\tab\tab\tab int max = -1;\par
+\par
+\par
+// finding maximum for co-ordinator selection\par
+\tab\tab\tab\tab for (j = 0; j < i; j++) \{\par
+\tab\tab\tab\tab\tab if (max < arr[j]) \{\par
+\tab\tab\tab\tab\tab\tab max = arr[j];\par
+\tab\tab\tab\tab\tab\}\par
+\tab\tab\tab\tab\}\par
+// co-ordinator is found then printing on console\par
+\tab\tab System.out.println("\\n process " + max + "select as co-ordinator");\par
+\tab\tab\tab\tab for (i = 0; i < num; i++) \{\par
+\tab\tab\tab\tab\tab if (proc[i].id == max) \{\par
+\tab\tab\tab\tab\tab\tab proc[i].state = "inactive";\par
+\tab\tab\tab\tab\tab\}\par
+\tab\tab\tab\tab\}\par
+\tab\tab\tab\tab break;\par
+\tab\tab\tab case 2:\par
+            System.out.println("Program terminated ...");\par
+            return ;\par
+\tab\tab\tab default:\par
+\tab\tab\tab\tab System.out.println("\\n invalid response \\n");\par
+\tab\tab\tab\tab break;\par
+\tab\tab\tab\}\par
+\tab\tab\}\par
+\tab\}\par
+\}\par
+\par
+class Rr \{\par
+\tab public int index;   // to store the index of process\par
+\tab public int id;      // to store id/name of process\par
+\tab public int f;\par
+\tab String state;       // indiactes whether active or inactive state of node\par
+\}\b\par
+output:\b0\par
+PS C:\\Users\\Kajal\\Downloads\\Election> cd "c:\\Users\\Kajal\\Downloads\\Election\\Election\\" ; if ($?) \{ javac Ring.java \} ; if ($?) \{ java Ring \}\par
+Enter the number of process : \par
+5\par
+Enter the id of process : \par
+1\par
+Enter the id of process : \par
+3\par
+Enter the id of process : \par
+5\par
+Enter the id of process : \par
+2\par
+Enter the id of process : \par
+6\par
+  [0] 1  [1] 2  [2] 3  [3] 5  [4] 6\par
+ process 6select as co-ordinator\par
+\par
+ 1.election 2.quit\par
+1\par
+\par
+ Enter the Process number who initialsied election :\par
+3\par
+\par
+Process 5 send message to 1\par
+Process 1 send message to 2\par
+Process 2 send message to 3\par
+Process 3 send message to 5\par
+ process 5select as co-ordinator\par
+ 1.election 2.quit\par
+1\par
+ Enter the Process number who initialsied election :\par
+2\par
+Process 3 send message to 1\par
+Process 1 send message to 2\par
+Process 2 send message to 3\par
+ process 3select as co-ordinator\par
+ 1.election 2.quit\par
+2\par
+Program terminated ...\par
+PS C:\\Users\\Kajal\\Downloads\\Election\\Election> \par
+\par
+}
+ 
